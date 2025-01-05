@@ -1,0 +1,8 @@
+function setKakaoNameRange(){
+    const ss= SpreadsheetApp.getActive():
+    const sheet=ss.getSheetByName("카카오"):
+    ss.setNamedRange("CODE", sheet.getRange("81"));
+    ss.setNameRange("ACCESS_TOKEN", sheet,getRange("B3"));
+    ss.setNameRange("REFRESH_TOKEN", sheet.getRange("B4"));
+    ss.setNameRange("EXPIRES_IN", sheet.getRange("B5"));    
+}
