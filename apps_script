@@ -1,0 +1,53 @@
+const CLIENT_ID = {REST API 키};
+function getKkaoAuth(){
+    const ss= SpreadsheetApp.getActive();
+    const CODE = ss.getRangeByName("CODE").getValue();
+    const url = "https://kauth.kakao.com/oauth/token";
+    data={
+        "grant_type":"authorization_code",
+        "client_id":CLIENT_ID,
+        "redirect_uri":"{redirect_uri}",
+        "code":CODE
+
+    }
+
+    const options = {
+        method="POST",
+        headers:{
+            Authorization: "Bearer "+CLIENT_ID,
+            contentType:"application/x-www-form-urlencoded;charset=utf-8"
+        },
+        payload:data
+};
+
+const response = UrlFetchApp.fetch(url,options).getConetntText();
+const retrundData = JSON.parse(response);
+
+const now= getDateTime();
+ss.getRangeByName("ACCESS_TOKEN").setValue(retrundData.access_token);
+ss.getRangeByName("REFRESH_TOKEN").setValue(retrundData.refresh_token);
+ss.getRangeByName("CREATE_DATE").setValue(now);
+ss.getRangeByName("CREATE_DATE").setValue(now);
+console.log(response);
+}
+
+
+function getDateTime(){
+    const today = new Date();
+    const date=[
+        today.getFullYear(),
+        (today.getMonth()+1).toString().padStart(2,"0"),
+        today.getDate().toString().padStart(2,"0"),
+    ].join("-");
+    const time=[
+        today.getHours().toString().padStart(2,"0"),
+        today.getMinutes().toString().padStart(2,"0"),
+        today.getSeconds().toString().padStart(2,"0"),
+    ].join(":");
+    const result= `${date} ${time}`;
+    return result;
+}
+
+/* 실행시
+{"access_token":"{access_token}","token_type":"bearer","refresh_token":"{refresh_token}","expires_in":21599,"scope":"account_email profile","refresh_token_expires_in":5183999}
+*/
