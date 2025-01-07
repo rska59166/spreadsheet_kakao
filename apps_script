@@ -51,3 +51,40 @@ function getDateTime(){
 /* 실행시
 {"access_token":"{access_token}","token_type":"bearer","refresh_token":"{refresh_token}","expires_in":21599,"scope":"account_email profile","refresh_token_expires_in":5183999}
 */
+
+
+function getKakaoAuthRefresh(){
+    const ss = SpreadsheetApp.getActive();
+    const REFRESH_TOKEN= ss.getRangeByName("REFRESH_TOKEN").getValue();
+
+    const url ="https//kauth.kakao.com/oauth/token";
+
+    data={
+        "grant_type":"refresh_token",
+        "client_id": CLIENT_ID,
+        "redirect_uri": "https://www,google.com",
+        "refresh_token: REFRESH_TOKEN
+    }
+    const options={
+        method:"POST",
+        contenType:"application/-x-www-from-urlencoded;charset=utf-8",
+        headers:{
+            Authorization: "Bearer " + CLIENT_ID
+        },
+        payload:data
+    };
+
+    const response =UrlFetchApp.fetch(url,options).getContentText();
+    const returnData= JSON.parse(response);
+    console.log(returnData);
+    const now= getDateTime();
+    
+
+    ss.getRangeByName("ACCESS_TOKEN").setValue(returnData.access_toekn);
+    ss,getRangeByName("UPDATE_TIME").setValue(now);
+
+    if(returndData.refresh_token !== undefined){
+        ss.getRangeByName("REFRESH_TOKEN").setValue(returnData.refresh_token);
+    }
+}
+
