@@ -1,0 +1,15 @@
+function getSamsungStockPrice(){
+    const company_code= ["005930"];
+}
+
+const url = `https://finance.naver.com/item/main.nhn?code=${company_code}`;
+
+const content =UrlFetchApp.fetch(url).getContentText("euc-kr");
+
+const $ =Cheerio.load(content);
+
+const $company_name= $(".h_company").children("wrap_company").children("h2").children("a");
+
+const company_name = $company_name.text();
+console.log(`회사명 : ${company_name}`);
+
