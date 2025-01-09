@@ -13,3 +13,18 @@ const $company_name= $(".h_company").children("wrap_company").children("h2").chi
 const company_name = $company_name.text();
 console.log(`회사명 : ${company_name}`);
 
+const $company_char_url = $(".chart").children("img").attr('src');
+const company_chart_url = $company_chart_url;
+console.log(`주가 차트 : ${company_chart_url}`);
+
+const $todays = $(".today").children("p").children("en");
+
+var $todays = $(".today").children("p").children("em");
+var today_info = [];
+$todays.each(function(i, elem){
+    today_info.push({
+    data: $(this).children(".blind").text(),
+    updown: $(this).children(".ico").text()
+    })
+});
+
